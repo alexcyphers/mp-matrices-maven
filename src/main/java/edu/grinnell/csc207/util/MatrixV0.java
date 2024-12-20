@@ -3,7 +3,7 @@ package edu.grinnell.csc207.util;
 /**
  * An implementation of two-dimensional matrices.
  *
- * @author Your Name Here
+ * @author Alex Cyphers
  * @author Samuel A. Rebelsky
  *
  * @param <T>
@@ -41,6 +41,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws NegativeArraySizeException
    *   If either the width or height are negative.
    */
+  @SuppressWarnings("unchecked")
   public MatrixV0(int width, int height, T def) {
     this.width = width;
     this.height = height;
@@ -133,8 +134,8 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException
    *   If the row is negative or greater than the height.
    */
-   @Override
-   public void insertRow(int row) {
+   @SuppressWarnings("unchecked")
+  public void insertRow(int row) {
      insertRow(row, (T[]) new Object[width()]);
    } // insertRow(int)
 
@@ -151,11 +152,12 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws ArraySizeException
    *   If the size of vals is not the same as the width of the matrix.
    */
+  @SuppressWarnings("unchecked")
   public void insertRow(int row, T[] vals) {
     if (row < 0 || row > height) {
       throw new IndexOutOfBoundsException();
     } else {
-      T[][] tempContents = (T[][]) new Object[height() + 1][width()];
+      T[][] tempContents = (T[][]) new Object[height + 1][width];
       for (int i = 0; i < row; i++) {
         tempContents[i] = contents[i];
       } // for-loop
@@ -163,7 +165,8 @@ public class MatrixV0<T> implements Matrix<T> {
       for (int i = row; i < height; i++) {
         tempContents[i + 1] = tempContents[i];
       } // for-loop
-      tempContents = contents;
+      contents = tempContents;
+      height++;
     } // if/else
   } // insertRow(int, T[])
 
@@ -176,12 +179,9 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException
    *   If the column is negative or greater than the width.
    */
+  @SuppressWarnings("unchecked")
   public void insertCol(int col) {
-    try {
-      insertCol(col, (T[]) new Object[height()]);
-    } catch (Exception e) {
-      //
-    }
+    insertCol(col, (T[]) new Object[height()]);
   } // insertCol(int)
 
   /**
@@ -197,13 +197,12 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws ArraySizeException
    *   If the size of vals is not the same as the height of the matrix.
    */
-  public void insertCol(int col, T[] vals) throws ArraySizeException {
+  @SuppressWarnings("unchecked")
+  public void insertCol(int col, T[] vals) {
     if (col > width || col < 0) {
       throw new IndexOutOfBoundsException();
-    } else if (vals.length != height) {
-      throw new IndexOutOfBoundsException();
     } else {
-      T[][] tempContents = (T[][]) new Object[height()][width() + 1];
+      T[][] tempContents = (T[][]) new Object[height][width + 1];
       for (int r = 0; r < height(); r++) {
         for (int i = 0; i < col; i++) {
           tempContents[r][i] = contents[r][i];
@@ -212,6 +211,8 @@ public class MatrixV0<T> implements Matrix<T> {
         for (int i = col; i < width(); i++) {
           tempContents[r][i + 1] = contents[r][i];
         } // for-loop
+        contents = tempContents;
+        width++;
       } // for-loop
     } // for-loop
   } // insertCol(int, T[])
@@ -225,6 +226,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException
    *   If the row is negative or greater than or equal to the height.
    */
+  @SuppressWarnings("unchecked")
   public void deleteRow(int row) {
     if (row < 0 || row >= height) {
       throw new IndexOutOfBoundsException();
@@ -237,6 +239,8 @@ public class MatrixV0<T> implements Matrix<T> {
       for (int i = row + 1; i < height(); i++) {
         tempContents[i - 1] = contents[i];
       } // for-loop
+      contents = tempContents;
+      height--;
     } // if/else
   } // deleteRow(int)
 
@@ -249,12 +253,13 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throws IndexOutOfBoundsException
    *   If the column is negative or greater than or equal to the width.
    */
+  @SuppressWarnings("unchecked")
   public void deleteCol(int col) {
     if (col < 0 || col >= width) {
       throw new IndexOutOfBoundsException();
     } else {
       T[][] tempContents = (T[][]) new Object[height()][width() - 1];
-      for (int r = 0; r < height(); i++) {
+      for (int r = 0; r < height(); r++) {
         for (int i = 0; i < col; i++) {
           tempContents[r][i] = contents[r][i];
         } // for-loop
@@ -262,6 +267,8 @@ public class MatrixV0<T> implements Matrix<T> {
           tempContents[r][i - 1] = contents[r][i];
         } // for-loop
       } // for-loop
+      contents = tempContents;
+      width--;
     } // if/else
   } // deleteCol(int)
 
@@ -349,6 +356,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return true if the other object is a matrix with the same width,
    * height, and equal elements; false otherwise.
    */
+  @SuppressWarnings("unchecked")
   public boolean equals(Object other) {
     if (!(other instanceof Matrix)) {
       return false;
