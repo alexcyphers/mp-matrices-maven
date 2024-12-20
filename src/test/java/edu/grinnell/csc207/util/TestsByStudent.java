@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 
 /**e
- * A variety of tests for the Matrix class.
+ * A variety of tests for the Matrix class written by the student.
  *
  * @author Alex Cyphers
  */
