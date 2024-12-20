@@ -46,8 +46,8 @@ public class MatrixV0<T> implements Matrix<T> {
     this.width = width;
     this.height = height;
     this.contents = (T[][]) new Object[height][width];
-    for (int i = 0; i < width; i++) {
-      for (int j = 0; j < height; j++) {
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
         this.contents[i][j] = def;
       } // for-loop
     } // for-loop
@@ -163,7 +163,7 @@ public class MatrixV0<T> implements Matrix<T> {
       } // for-loop
       tempContents[row] = vals;
       for (int i = row; i < height; i++) {
-        tempContents[i + 1] = tempContents[i];
+        tempContents[i] = tempContents[i + 1];
       } // for-loop
       contents = tempContents;
       height++;
@@ -211,10 +211,10 @@ public class MatrixV0<T> implements Matrix<T> {
         for (int i = col; i < width(); i++) {
           tempContents[r][i + 1] = contents[r][i];
         } // for-loop
-        contents = tempContents;
-        width++;
       } // for-loop
-    } // for-loop
+      contents = tempContents;
+      width++;
+    } // if/else
   } // insertCol(int, T[])
 
   /**
