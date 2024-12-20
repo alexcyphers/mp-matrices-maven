@@ -168,7 +168,7 @@ public class MatrixV0<T> implements Matrix<T> {
       } // for-loop
       tempContents[row] = vals;
       for (int i = row; i < height; i++) {
-        tempContents[i + 1] = tempContents[i];
+        tempContents[i + 1] = contents[i];
       } // for-loop
       contents = tempContents;
       height++;
